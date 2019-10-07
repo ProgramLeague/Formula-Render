@@ -1,7 +1,7 @@
 #include<string>
 #include<list>
 
-enum formType {sqrt, inte, frac, mat};
+enum formType {basic, sqrt, inte, frac, mat};
 
 class maker;
 
@@ -16,12 +16,12 @@ private:
 	string formStr;
 	
 public:
-	virtual int getType()=0;
+	int getType() { return basic; }
 	formual(string formStr) : formStr(formStr) {}
 	float x1=-1;
 	float y1=-1;
 	int fontSize=-1;
-	virtual void draw()=0;
+	void draw();
 	//父节点管理子节点所有权
 	maker* supMaker=nullptr;
 	maker* subMaker=nullptr;
