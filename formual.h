@@ -5,7 +5,7 @@ enum formType {basic, sqrt, inte, frac, mat};
 
 class maker;
 
-class baseFormual
+class baseForm
 {
 private:
 	bool verify()
@@ -29,25 +29,14 @@ public:
 	}
 };
 
-class formual : public baseFormual
-{
-private:
-	string formStr;
-	
-public:
-	int getType() { return basic; }
-	formual(string formStr) : formStr(formStr) {}
-	void draw();
-};
-
 class maker
 {
 private:
 	bool makerFlag; //true为上标
-	baseFormual* form;
+	baseForm* form;
 	
 public:
-	maker(bool markFlag, baseFormual* form) : 
+	maker(bool markFlag, baseForm* form) : 
 		markFlag(markFlag), form(form) {}
 	void draw()
 	{
@@ -61,10 +50,21 @@ public:
 	}
 };
 
-class sqrtForm : public baseFormual
+class formual : public baseForm
 {
 private:
-	baseFormual* form;
+	string formStr;
+	
+public:
+	int getType() { return basic; }
+	formual(string formStr) : formStr(formStr) {}
+	void draw();
+};
+
+class sqrtForm : public baseForm
+{
+private:
+	baseForm* form;
 	
 public:
 	int getType() { return sqrt; }
@@ -77,16 +77,16 @@ public:
 	}
 };
 
-class inteForm : public baseFormual
+class inteForm : public baseForm
 {
 private:
-	baseFormual* upper;
-	baseFormual* lower;
-	baseFormual* expr;
+	baseForm* upper;
+	baseForm* lower;
+	baseForm* expr;
 	
 public:
 	int getType() { return inte; }
-	inteForm(baseFormual* upper=nullptr, baseFormual* lower=nullptr, baseFormual* expr=nullptr) : 
+	inteForm(baseForm* upper=nullptr, baseForm* lower=nullptr, baseForm* expr=nullptr) : 
 		upper(upper), lower(lower), expr(expr) {}
 	//这里应该加一个积分/求和积符号的flag
 	void draw();
@@ -98,15 +98,15 @@ public:
 	}
 };
 
-class fracForm : public baseFormual
+class fracForm : public baseForm
 {
 private:
-	baseFormual* numForm;
-	baseFormual* denForm;
+	baseForm* numForm;
+	baseForm* denForm;
 	
 public:
 	int getType() { return frac; }
-	fracForm(baseFormual* numForm, baseFormual* denForm) : numForm(numForm), denForm(denForm) {}
+	fracForm(baseForm* numForm, baseForm* denForm) : numForm(numForm), denForm(denForm) {}
 	void draw();
 	~fracForm()
 	{
@@ -115,20 +115,20 @@ public:
 	}
 };
 
-class matForm : public baseFormual
+class matForm : public baseForm
 {
 private:
-	list<list<baseFormual*>> allForm;
+	list<list<baseForm*>> allForm;
 
 public:
 	int getType() { return mat; }
-	matForm(list<list<baseFormual*>> allForm) : allForm(allForm) {}
+	matForm(list<list<baseForm*>> allForm) : allForm(allForm) {}
 	void draw();
 	~matForm()
 	{
 		for(auto i : allForm)
 		{
-			for(baseFormual* j : i)
+			for(baseForm* j : i)
 				delete j;
 		}
 	}
