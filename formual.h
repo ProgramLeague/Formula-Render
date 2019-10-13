@@ -34,10 +34,11 @@ class maker
 private:
 	bool makerFlag; //true为上标
 	baseForm* form;
+	baseForm* parent;
 	
 public:
-	maker(bool markFlag, baseForm* form) : 
-		markFlag(markFlag), form(form) {}
+	maker(bool markFlag, baseForm* form, baseForm* parent) : 
+		markFlag(markFlag), form(form), parent(parent) {}
 	void draw()
 	{
 		//fix:根据上下标计算form的三个量
